@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+  postgres14:
+    image: postgres:14-alpine
+    ports:
+      - "5532:5432"
+    environment:
+      POSTGRES_PASSWORD: toor
+      POSTGRES_DB: postgres
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - agendaProProducts
+  agenda_pro_products:
+    image: agenda_pro_products
+    ports:
+      - "8080:8080"
+    networks:
+      - agendaProProducts
+    depends_on:
+      - postgres14
+    restart: always
+volumes:
+  data-mysql:
+  data-postgres:
+
+networks:
+  agendaProProducts:
